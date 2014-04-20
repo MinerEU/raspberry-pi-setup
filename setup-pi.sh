@@ -7,10 +7,9 @@ apt-get install -y  libjansson4 libusb-1.0-0 ntpdate screen
 apt-get install -y  wget build-essential git pkg-config libtool libcurl4-openssl-dev libncurses5-dev libudev-dev autoconf automake
 
 lighty-enable-mod fastcgi-php
-usermod -a -G www-data pi
 mkdir /etc/lighttpd/certs
 cd /etc/lighttpd/certs
-openssl req -new -x509 -keyout lighttpd.pem -out lighttpd.pem -days 365 -nodes
+openssl req -new -x509 -keyout lighttpd.pem -out lighttpd.pem -days 365 -nodes -subj "/C=US/ST=TEC/L=LONDON/O=DIS/CN=scripta.minereu.com" 
 chmod 400 lighttpd.pem
 /etc/init.d/lighttpd restart
 echo '$SERVER["socket"] == ":443" { ssl.engine = "enable" ssl.pemfile = "/etc/lighttpd/certs/lighttpd.pem" }' | tee -a  /etc/lighttpd/lighttpd.conf
@@ -33,5 +32,10 @@ cp -fr etc opt var /
 chown -R  www-data /var/www
 chown -R  www-data /opt/scripta/
 
+chmod -R +x /var/www/
+chmod -R +x  /opt/scripta/bin/
+chmod -R +x  /opt/scripta/startup/
 #repace the cgminer with the local compiled version
 cp /usr/local/bin/cgminer /opt/scripta/bin/cgminer
+
+reboot
