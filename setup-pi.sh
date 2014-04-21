@@ -18,13 +18,20 @@ cd /etc/lighttpd/certs
 openssl req -new -x509 -keyout lighttpd.pem -out lighttpd.pem -days 365 -nodes -subj "/C=US/ST=TEC/L=LONDON/O=DIS/CN=scripta.minereu.com" 
 chmod 400 lighttpd.pem
 /etc/init.d/lighttpd restart
+ssl_option=`grep "ssl.pemfile" /etc/lighttpd/lighttpd.conf`
+if [ "$ssl_option" == "" ]
+	then
 echo '$SERVER["socket"] == ":443" { ssl.engine = "enable" ssl.pemfile = "/etc/lighttpd/certs/lighttpd.pem" }' | tee -a  /etc/lighttpd/lighttpd.conf
+fi
 cd /
+
 /etc/init.d/lighttpd restart
 #compile CGMINER
 cd /tmp
-wget -O cgminer-gc3355.zip https://github.com/girnyau/cgminer-gc3355/archive/master.zip
-unzip cgminer-gc3355.zip
+
+#forked version from mox235 to udpate a few configuration to support the G-Blade 40 chip
+wget -O cgminer-gc3355.zip https://github.com/MinerEU/scripta/archive/master.zip
+unzip -o cgminer-gc3355.zip
 cd cgminer-gc3355-master
 ./configure --enable-scrypt --enable-gridseed
 make install
@@ -32,7 +39,7 @@ make install
 #install scripta
 cd /tmp
 wget -O scriptaming.zip https://github.com/scriptamining/scripta/archive/master.zip
-unzip scriptaming.zip
+unzip -o scriptaming.zip
 cd scripta-master/
 cp -fr etc opt var /
 chown -R  www-data /var/www
@@ -42,8 +49,8 @@ chmod -R +x /var/www/
 chmod -R +x  /opt/scripta/bin/
 chmod -R +x  /opt/scripta/startup/
 #repace the cgminer with the local compiled version
-cp /opt/scripta/bin/cgminer /opt/scripta/bin/cgminer_bk
-cp /usr/local/bin/cgminer /opt/scripta/bin/cgminer
+cp -fr /opt/scripta/bin/cgminer /opt/scripta/bin/cgminer_bk
+cp -fr /usr/local/bin/cgminer /opt/scripta/bin/cgminer
 
 #fix the bug that pi stuck when mining 
 slub_debug_content=$(grep slub_debug< /boot/cmdline.txt)
