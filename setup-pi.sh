@@ -1,4 +1,10 @@
 #!/bin/bash
+
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 1>&2
+   exit 1
+fi
+
 apt-get update
 apt-get install -y lighttpd unzip
 apt-get install -y  php5-common php5-cgi php5 
@@ -36,6 +42,16 @@ chmod -R +x /var/www/
 chmod -R +x  /opt/scripta/bin/
 chmod -R +x  /opt/scripta/startup/
 #repace the cgminer with the local compiled version
+cp /opt/scripta/bin/cgminer /opt/scripta/bin/cgminer_bk
 cp /usr/local/bin/cgminer /opt/scripta/bin/cgminer
+
+#fix the bug that pi stuck when mining 
+slub_debug_content=$(grep slub_debug< /boot/cmdline.txt)
+if [ "$slub_debug_content" == "" ]
+	then
+	#append  slub_debug=FPUZ to existing content and write back 
+	 echo  "$(cat /boot/cmdline.txt) slub_debug=FPUZ" >> /boot/cmdline.txt
+fi
+
 
 reboot
