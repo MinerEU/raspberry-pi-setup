@@ -6,11 +6,10 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 apt-get update
-apt-get install -y lighttpd unzip
+apt-get install -y lighttpd unzip wget openssl
 apt-get install -y  php5-common php5-cgi php5 
-apt-get install -y  php5-rrd libexpect-php5 php-auth-sasl php-mail php-net-smtp php-net-socket
+apt-get install -y  php5-rrd libexpect-php5 php-auth-sasl php-mail php-net-smtp php-net-socket rrdtool
 apt-get install -y  libjansson4 libusb-1.0-0 ntpdate screen
-apt-get install -y  wget build-essential git pkg-config libtool libcurl4-openssl-dev libncurses5-dev libudev-dev autoconf automake
 
 lighty-enable-mod fastcgi-php
 mkdir /etc/lighttpd/certs
@@ -26,21 +25,19 @@ fi
 cd /
 
 /etc/init.d/lighttpd restart
-#compile CGMINER
-cd /tmp
 
-#forked version from mox235 to udpate a few configuration to support the G-Blade 40 chip
-wget -O cgminer-gc3355.zip https://github.com/MinerEU/scripta/archive/master.zip
-unzip -o cgminer-gc3355.zip
-cd cgminer-gc3355-master
-./configure --enable-scrypt --enable-gridseed
-make install
+
+
 
 #install scripta
+#forked version from mox235 to udpate a few configuration to support the G-Blade 40 chip
 cd /tmp
-wget -O scriptaming.zip https://github.com/scriptamining/scripta/archive/master.zip
+wget -O scriptaming.zip  https://github.com/MinerEU/scripta/archive/master.zip
 unzip -o scriptaming.zip
 cd scripta-master/
+
+rm -fr /var/www/*
+rm -fr /opt/scripta/*
 cp -fr etc opt var /
 chown -R  www-data /var/www
 chown -R  www-data /opt/scripta/
@@ -48,9 +45,23 @@ chown -R  www-data /opt/scripta/
 chmod -R +x /var/www/
 chmod -R +x  /opt/scripta/bin/
 chmod -R +x  /opt/scripta/startup/
-#repace the cgminer with the local compiled version
-cp -fr /opt/scripta/bin/cgminer /opt/scripta/bin/cgminer_bk
-cp -fr /usr/local/bin/cgminer /opt/scripta/bin/cgminer
+
+#generate the uniqe id for this device
+#echo -n $(cat /proc/cpuinfo|grep Serial|awk '{print $3}')|md5sum|awk '{print $1}'
+
+
+is_raspbian=`cat /etc/os-release|grep Raspbian`
+if [ "$is_raspbian" == "" ]
+	then
+apt-get install -y  build-essential git pkg-config libtool libcurl4-openssl-dev libncurses5-dev libudev-dev autoconf automake	
+wget -O cgminer-gc3355.zip https://github.com/MinerEU/cgminer-gc3355/archive/master.zip
+unzip -o cgminer-gc3355.zip
+cd cgminer-gc3355-master
+./configure --enable-scrypt --enable-gridseed
+make install
+fi
+#if it is not compiled version for Pi, then you will need to 
+chmod +x /usr/local/bin/cgminer
 
 #fix the bug that pi stuck when mining 
 slub_debug_content=$(grep slub_debug< /boot/cmdline.txt)
