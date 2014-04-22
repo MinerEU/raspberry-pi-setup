@@ -38,7 +38,7 @@ cd scripta-master/
 
 rm -fr /var/www/*
 rm -fr /opt/scripta/*
-cp -fr etc opt var /
+cp -fr usr etc opt var /
 chown -R  www-data /var/www
 chown -R  www-data /opt/scripta/
 
