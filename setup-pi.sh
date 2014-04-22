@@ -38,6 +38,7 @@ cd scripta-master/
 
 rm -fr /var/www/*
 rm -fr /opt/scripta/*
+rm -fr /etc/cron.d/timeupdate
 cp -fr usr etc opt var /
 chown -R  www-data /var/www
 chown -R  www-data /opt/scripta/
@@ -68,7 +69,7 @@ slub_debug_content=$(grep slub_debug< /boot/cmdline.txt)
 if [ "$slub_debug_content" == "" ]
 	then
 	#append  slub_debug=FPUZ to existing content and write back 
-	 echo  "$(cat /boot/cmdline.txt) slub_debug=FPUZ" >> /boot/cmdline.txt
+	 echo  "$(cat /boot/cmdline.txt) slub_debug=FPUZ" > /boot/cmdline.txt
 fi
 
 
