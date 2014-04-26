@@ -3,6 +3,7 @@
 # rc.local
 #
 
+/usr/local/bin/minereu.sh
 printf "Happy mining!\n"
 
 exit 0
