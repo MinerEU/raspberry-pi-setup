@@ -1,0 +1,9 @@
+#!/bin/sh -e
+#
+# rc.local
+#
+
+printf "Happy mining!\n"
+
+exit 0
+
