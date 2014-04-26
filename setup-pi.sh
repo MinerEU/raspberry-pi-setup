@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root" 1>&2
+   echo "This script must be run as root. use sudo su" 1>&2
    exit 1
 fi
 
@@ -71,5 +71,5 @@ if [ "$slub_debug_content" == "" ]
 	 echo  "$(cat /boot/cmdline.txt) slub_debug=FPUZ" >> /boot/cmdline.txt
 fi
 
-
-reboot
+/opt/scripta/startup/miner-stop.sh
+/opt/scripta/startup/miner-start.sh
