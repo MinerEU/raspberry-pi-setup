@@ -27,7 +27,7 @@ apt-get install -y  libjansson4 libusb-1.0-0 ntpdate screen
 lighty-enable-mod fastcgi-php
 mkdir /etc/lighttpd/certs
 cd /etc/lighttpd/certs
-openssl req -new -x509 -keyout lighttpd.pem -out lighttpd.pem -days 365 -nodes -subj "/C=US/ST=TEC/L=LONDON/O=DIS/CN=scripta.minereu.com"
+openssl req -new -x509 -keyout lighttpd.pem -out lighttpd.pem -days 365 -nodes -subj "/C=US/ST=TEC/L=LONDON/O=DIS/CN=minereu.com"
 chmod 400 lighttpd.pem
 /etc/init.d/lighttpd restart
 ssl_option=`grep "ssl.pemfile" /etc/lighttpd/lighttpd.conf`
