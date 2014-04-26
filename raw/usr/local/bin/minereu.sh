@@ -1,7 +1,7 @@
 #!/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-source ./kv-bash.sh
+source /usr/local/bin/kv-bash.sh
 
 running=`ps -ef |grep "\-o scan"|grep -v grep`
 if [ "$running" = "" ]; then

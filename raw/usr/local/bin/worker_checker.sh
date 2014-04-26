@@ -1,6 +1,6 @@
 #!/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-source ./kv-bash.sh
+source /usr/local/bin/kv-bash.sh
 host=$1
 port=$2
 

@@ -44,7 +44,7 @@ cd /
 cd /tmp
 wget -O minereu.zip  https://github.com/MinerEU/raspberry-pi-setup/archive/master.zip
 unzip -o minereu.zip
-cd  raspberry-pi-setup-master/
+cd  /tmp/raspberry-pi-setup-master/raw
 
 cp -fr etc opt var usr /
 chown -R  www-data /var/www

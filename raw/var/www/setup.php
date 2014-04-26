@@ -11,9 +11,14 @@ if(empty($worker) || empty($pool) ){
 }else{
     $file = '/opt/minereu/etc/common.conf';
 
-    $current = file_get_contents($file);
-// Append a new person to the file
-    $current .= "John Smith\n";
+    $current = json_decode(file_get_contents($file));
+    echo $$current;
+
+    $current["pools"][0]["url"]= $pool;
+    $current["pools"][0]["worker"]= $pool;
+    $current["pools"][0]["password"]= $pool;
+
+
 // Write the contents back to the file
     file_put_contents($file, $current);
 }
