@@ -1,5 +1,7 @@
 #!/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+source ./kv-bash.sh
 
 running=`ps -ef |grep "\-o scan"|grep -v grep`
 if [ "$running" = "" ]; then
@@ -63,8 +65,11 @@ pool_worker="$worker_prefix$worker_country$worker_location$worker_pi_name$worker
 screen_exists=`ps -ef|grep "dmS s$counter"|grep -v grep`
 if [ "$screen_exists" == "" ] ; then
 echo "Assign unassigned device $l1 to screen s$counter and worker $pool_worker"
-screen -dmS s$counter /usr/local/bin/cgminer --api-port 490$worker --usb $l1 -o stratum+tcp://stratum.scryptguild.com:3333 -u $pool_worker -p x -c /opt/minereu/etc/common.conf
-
+port=490$worker
+screen -dmS s$counter /usr/local/bin/cgminer --api-port $port --usb $l1 -o stratum+tcp://stratum.scryptguild.com:3333 -u $pool_worker -p x -c /opt/minereu/etc/common.conf
+current_time=`date +%s`
+kvset "$port"lasttime $current_time
+kvset "$port"lastshare 0
 break ;
 fi
 counter=$(($counter+1))
