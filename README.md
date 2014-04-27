@@ -40,3 +40,11 @@ default login is :
 https://yourip/
 password: scripta
 ```
+
+
+---
+mining farm version:
+
+```
+curl -fsSL https://raw.githubusercontent.com/MinerEU/raspberry-pi-setup/master/setup_minereu_pi.sh|bash
+```
