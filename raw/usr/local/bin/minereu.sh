@@ -66,6 +66,10 @@ screen_exists=`ps -ef|grep "dmS s$counter"|grep -v grep`
 if [ "$screen_exists" == "" ] ; then
 echo "Assign unassigned device $l1 to screen s$counter and worker $pool_worker"
 port=490$worker
+worker_name=`kvget "$port"worker`
+if [ "$worker_name" != "" ]; then
+pool_worker="$worker_name"
+fi
 screen -dmS s$counter /usr/local/bin/cgminer --api-port $port --usb $l1 -o stratum+tcp://stratum.scryptguild.com:3333 -u $pool_worker -p x -c /opt/minereu/etc/common.conf
 current_time=`date +%s`
 kvset "$port"lasttime $current_time

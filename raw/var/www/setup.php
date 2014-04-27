@@ -9,14 +9,9 @@ if(empty($worker) || empty($pool) ){
     echo "worker, pool, password you can pass mulitple worker with comma seperated values";
     echo "https://ip/setup.php?worker=minereu&password=x&pool=stratum+tcp://stratum.scryptguild.com:3333";
 }else{
-    $file = '/opt/minereu/etc/common.conf';
+    $file = '';
 
-    $current = json_decode(file_get_contents($file));
-    echo $$current;
 
-    $current["pools"][0]["url"]= $pool;
-    $current["pools"][0]["worker"]= $pool;
-    $current["pools"][0]["password"]= $pool;
 
 
 // Write the contents back to the file

@@ -15,7 +15,7 @@ time_diff=$(expr $current_time - $last_time)
 echo "$current_time :$current_share  $last_time:$last_share  timediff:$time_diff"
 
 
-if [ "$current_share" == "$last_share"  ] && [ $time_diff -gt  180 ];then
+if [ "$current_share" == "$last_share"  ] && [ $time_diff -gt  60 ];then
 echo "longer than 3 mins, kill"
 exec 3<>/dev/tcp/$1/$2
 echo "quit|" >&3

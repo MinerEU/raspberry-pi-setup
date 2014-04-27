@@ -18,6 +18,7 @@ mv -f /etc/cron.d/minereu /opt/minereu_back/before_install/etc/cron.d/ 2>/dev/nu
 mv -f /opt/scripta  /opt/minereu_back/before_install/opt/ 2>/dev/null;
 mv -f /etc/rc.local /opt/minereu_back/before_install/etc 2>/dev/null;
 
+##
 apt-get update
 apt-get install -y lighttpd unzip wget openssl
 apt-get install -y  php5-common php5-cgi php5
