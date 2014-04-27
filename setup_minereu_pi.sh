@@ -18,6 +18,7 @@ mv -f /etc/cron.d/minereu /opt/minereu_back/before_install/etc/cron.d/ 2>/dev/nu
 mv -f /opt/scripta  /opt/minereu_back/before_install/opt/ 2>/dev/null;
 mv -f /etc/rc.local /opt/minereu_back/before_install/etc 2>/dev/null;
 
+
 ##
 apt-get update
 apt-get install -y lighttpd unzip wget openssl
@@ -52,7 +53,8 @@ chown -R  www-data /var/www
 
 chmod -R +x /var/www/
 chmod -R +x /usr/local/bin/*
-
+chown -R  www-data /opt/minereu/etc/.kv-bash/
+chown -R  www-data /opt/minereu/etc/command
 #generate the uniqe id for this device
 #echo -n $(cat /proc/cpuinfo|grep Serial|awk '{print $3}')|md5sum|awk '{print $1}'
 

@@ -3,20 +3,20 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 source /usr/local/bin/kv-bash.sh
 
-running=`ps -ef |grep "\-o scan"|grep -v grep`
-if [ "$running" = "" ]; then
-    echo "Another process is running , exist now!";
+
+if  [ -a  /tmp/minereu.lock ]; then
+    echo "Another process is running or it is locked , exist now!";
+    echo "if you are sure there is no lock, please use rm /tmp/minereu.lock"
     exit 1
 fi
+
+touch /tmp/minereu.lock
+
 
 usage () {
 cat << EOD
 Use following
 $y-o$c $g optional$c: $y operation:killall,scan$c
-$y-l$c $g optional$c: $y location, i.e. bh,wh,bo$c
-$y-p$c $g optional$c: $y pool prefix,i.e. minereu_ , minereu. $c
-$y-c$c $g optional$c: $y country code, cn, uk$c
-$y-d$c $g optional$c: $y device name, i.e. a1,a2,a3$c
 $y-s$c $g optional$c: $y how many second to sleep before start scan$c
 
 EOD
@@ -51,6 +51,9 @@ init_devices(){
 devices=`lsusb|grep 0483:5740|sort -k 4|awk '{print $2":"$4}'|rev|cut -c 2- |rev`
 current_running_device=`ps -ef |grep SCREEN|grep -v grep |awk '{print $10 "-" $15}'|sort -k 2`
 
+default_pool=`kvget pool`
+default_worker=`kvget worker`
+default_password=`kvget password`
 
 for l1 in $devices; do
 current_dev=`ps -ef |grep $l1|grep "usb"|grep -v grep`;
@@ -59,18 +62,38 @@ if [ "$current_dev" == "" ]
 then
 echo "Found unassigned device:$l1";
 counter=0;
+
 while true; do
-printf -v worker "%02d" $counter
-pool_worker="$worker_prefix$worker_country$worker_location$worker_pi_name$worker"
+printf -v fcounter "%03d" $counter
+prefix=49$fcounter;
+
+
 screen_exists=`ps -ef|grep "dmS s$counter"|grep -v grep`
 if [ "$screen_exists" == "" ] ; then
-echo "Assign unassigned device $l1 to screen s$counter and worker $pool_worker"
-port=490$worker
-worker_name=`kvget "$port"worker`
-if [ "$worker_name" != "" ]; then
-pool_worker="$worker_name"
+pool_name=`kvget $prefix"pool"`
+worker_name=`kvget $prefix"worker"`
+password=`kvget $prefix"password"`
+port=$prefix
+
+echo "Assign unassigned device $l1 to screen s$counter and worker $worker_name"
+
+
+if [ "$worker_name" == "" ]; then
+worker_name="$default_worker"
 fi
-screen -dmS s$counter /usr/local/bin/cgminer --api-port $port --usb $l1 -o stratum+tcp://stratum.scryptguild.com:3333 -u $pool_worker -p x -c /opt/minereu/etc/common.conf
+
+
+if [ "$pool_name" == "" ]; then
+pool_name="$default_pool"
+fi
+
+
+if [ "$password" == "" ]; then
+password="$default_password"
+fi
+
+screen -dmS s$counter /usr/local/bin/cgminer --api-port $port --usb $l1 -o $pool_name -u $worker_name -p $password -c /opt/minereu/etc/miner/common.conf
+#echo "screen -dmS s$counter /usr/local/bin/cgminer --api-port $port --usb $l1 -o $pool_name -u $worker_name -p $password -c /opt/minereu/etc/miner/common.conf"
 current_time=`date +%s`
 kvset "$port"lasttime $current_time
 kvset "$port"lastshare 0
@@ -111,10 +134,6 @@ while getopts $options option
 do
     case $option in
         o  ) operation=$OPTARG;;
-        p  ) worker_prefix=$OPTARG;;
-        c  ) worker_country=$OPTARG;;
-        l  ) worker_location=$OPTARG;;
-        d  ) worker_pi_name=$OPTARG;;
         s  ) sleep_sec=$OPTARG;;
         \? ) echo "Unknown option: -$OPTARG" >&2; usage ; exit 1;;
         :  ) echo "Missing option argument for -$OPTARG, if it is optional,and you want to omit it, don't provide -$OPTARG at all" >&2; usage ;exit 1;;
@@ -124,3 +143,4 @@ done
 
 choose_operation $operation
 
+rm /tmp/minereu.lock
