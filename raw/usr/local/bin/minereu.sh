@@ -146,4 +146,4 @@ done
 
 choose_operation $operation
 
-rm /tmp/minereu.lock
+rm -f /tmp/minereu.lock
