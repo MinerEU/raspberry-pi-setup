@@ -4,14 +4,6 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 source /usr/local/bin/kv-bash.sh
 
 
-if  [ -a  /tmp/minereu.lock ]; then
-    echo "Another process is running or it is locked , exist now!";
-    echo "if you are sure there is no lock, please use rm /tmp/minereu.lock"
-    exit 1
-fi
-
-touch /tmp/minereu.lock
-
 
 usage () {
 cat << EOD
@@ -48,6 +40,17 @@ done
 }
 
 init_devices(){
+
+
+if  [ -a  /tmp/minereu.lock ]; then
+    echo "Another process is running or it is locked , exist now!";
+    echo "if you are sure there is no lock, please use rm /tmp/minereu.lock"
+    exit 1
+fi
+
+touch /tmp/minereu.lock
+
+
 devices=`lsusb|grep 0483:5740|sort -k 4|awk '{print $2":"$4}'|rev|cut -c 2- |rev`
 current_running_device=`ps -ef |grep SCREEN|grep -v grep |awk '{print $10 "-" $15}'|sort -k 2`
 

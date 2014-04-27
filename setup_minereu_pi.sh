@@ -27,6 +27,8 @@ apt-get install -y  php5-rrd libexpect-php5 php-auth-sasl php-mail php-net-smtp 
 apt-get install -y  libjansson4 libusb-1.0-0 ntpdate screen
 
 lighty-enable-mod fastcgi-php
+
+if [ ! -a "/etc/lighttpd/certs/lighttpd.pem" ]; then
 mkdir /etc/lighttpd/certs
 cd /etc/lighttpd/certs
 openssl req -new -x509 -keyout lighttpd.pem -out lighttpd.pem -days 365 -nodes -subj "/C=US/ST=TEC/L=LONDON/O=DIS/CN=minereu.com"
@@ -40,7 +42,7 @@ fi
 cd /
 
 /etc/init.d/lighttpd restart
-
+fi
 
 #install minereu controller
 cd /tmp
