@@ -10,7 +10,7 @@ mkdir -p /opt/minereu_back/before_install/var/www
 mkdir -p /opt/minereu_back/before_install/usr/local/bin/
 mkdir -p /opt/minereu_back/before_install/etc/cron.d/
 mkdir -p /opt/minereu_back/before_install/opt/scripta/
-
+mkdir -p /root/.kv-bash
 
 mv -f /var/www/* /opt/minereu_back/before_install 2>/dev/null;
 mv -f /usr/local/bin/* /opt/minereu_back/before_install/usr/local/bin/ 2>/dev/null;
@@ -62,7 +62,7 @@ chown -R  www-data /opt/minereu/etc/command
 
 
 is_raspbian=`cat /etc/os-release|grep Raspbian`
-if [ "$is_raspbian" == "" ] || [  -f "/usr/local/bin/cgminer" ]
+if [ "$is_raspbian" == "" ] && [ ! -f "/usr/local/bin/cgminer" ]
 	then
 apt-get install -y  build-essential git pkg-config libtool libcurl4-openssl-dev libncurses5-dev libudev-dev autoconf automake
 wget -O cgminer-gc3355.zip https://github.com/MinerEU/cgminer-gc3355/archive/master.zip
