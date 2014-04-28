@@ -70,8 +70,9 @@ if(empty($worker) || empty($pool) ){
             echo "<br>wrting config for pool".$pool_file_name.":".$my_pool;
         }
 
-
-
+        $file_path_prefix="/opt/minereu/etc/command/";
+        $cmd="/usr/local/bin/minereu.sh  -s 0 -o killall";
+        file_put_contents($file_path_prefix."cmd",$cmd);
 
     }
 

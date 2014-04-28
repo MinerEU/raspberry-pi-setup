@@ -28,7 +28,7 @@ apt-get install -y  libjansson4 libusb-1.0-0 ntpdate screen
 
 lighty-enable-mod fastcgi-php
 
-if [ ! -a "/etc/lighttpd/certs/lighttpd.pem" ]; then
+if [ ! -f "/etc/lighttpd/certs/lighttpd.pem" ]; then
 mkdir /etc/lighttpd/certs
 cd /etc/lighttpd/certs
 openssl req -new -x509 -keyout lighttpd.pem -out lighttpd.pem -days 365 -nodes -subj "/C=US/ST=TEC/L=LONDON/O=DIS/CN=minereu.com"
@@ -62,7 +62,7 @@ chown -R  www-data /opt/minereu/etc/command
 
 
 is_raspbian=`cat /etc/os-release|grep Raspbian`
-if [ "$is_raspbian" == "" ]
+if [ "$is_raspbian" == "" ] || [  -f "/usr/local/bin/cgminer" ]
 	then
 apt-get install -y  build-essential git pkg-config libtool libcurl4-openssl-dev libncurses5-dev libudev-dev autoconf automake
 wget -O cgminer-gc3355.zip https://github.com/MinerEU/cgminer-gc3355/archive/master.zip
