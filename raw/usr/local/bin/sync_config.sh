@@ -1,12 +1,16 @@
 #!/bin/sh
 
-if [ -a "/root/.kv-bash/pool" ] && [ -a "/root/.kv-bash/worker" ] && [ -a "/root/.kv-bash/password" ]; then
+if [ -f "/root/.kv-bash/pool" ] ; then
 rm -f /root/.kv-bash/*pool;
+fi
+if [ -f "/root/.kv-bash/worker" ] ; then
 rm -f /root/.kv-bash/*worker;
+fi
+if [ -f "/root/.kv-bash/password" ]; then
 rm -f /root/.kv-bash/*password;
 fi
 
-if [ -a "/root/.kv-bash/operation" ] ; then
+if [ -f "/root/.kv-bash/operation" ] ; then
     rm -f /root/.kv-bash/operation;
 fi
 
