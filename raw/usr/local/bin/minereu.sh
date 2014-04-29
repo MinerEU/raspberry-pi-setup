@@ -95,8 +95,8 @@ if [ "$password" == "" ]; then
 password="$default_password"
 fi
 
-screen -dmS s$counter /usr/local/bin/cgminer --api-port $port --usb $l1 -o $pool_name -u $worker_name -p $password -c /opt/minereu/etc/miner/common.conf
-#echo "screen -dmS s$counter /usr/local/bin/cgminer --api-port $port --usb $l1 -o $pool_name -u $worker_name -p $password -c /opt/minereu/etc/miner/common.conf"
+screen -dmS s$counter /usr/local/bin/cgminer --api-port $port --usb $l1 -o $pool_name -u $worker_name -p $password -c /opt/minereu/etc/miner/common.json
+#echo "screen -dmS s$counter /usr/local/bin/cgminer --api-port $port --usb $l1 -o $pool_name -u $worker_name -p $password -c /opt/minereu/etc/miner/common.json"
 current_time=`date +%s`
 kvset "$port"lasttime $current_time
 kvset "$port"lastshare 0

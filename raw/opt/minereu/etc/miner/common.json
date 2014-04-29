@@ -1,0 +1,49 @@
+{
+
+    "api-listen": true,
+    "api-allow": "W:127.0.0.1",
+    "expiry": "120",
+    "hotplug": "5",
+    "log": "5",
+    "no-pool-disable": true,
+    "queue": "1",
+    "scan-time": "30",
+    "scrypt": true,
+    "shares": "0",
+    "pools": [
+
+
+
+        {
+            "url": "stratum+tcp://sea.wafflepool.com:3333",
+            "user": "1MJGhvPBPYspgQ1YtC8vz4DDfjm26LoZ94",
+            "pass": "1",
+            "prio": "1"
+        },
+        {
+            "url": "stratum+tcp://mine.coinshift.com:3333",
+            "user": "1MJGhvPBPYspgQ1YtC8vz4DDfjm26LoZ94",
+            "pass": "1",
+            "prio": "2"
+        },
+        {
+            "url": "stratum+tcp://middlecoin.com:3333",
+            "user": "1MJGhvPBPYspgQ1YtC8vz4DDfjm26LoZ94",
+            "pass": "1",
+            "prio": "4"
+        },
+        {
+            "url": "stratum+tcp://stratum.scryptguild.com:3333",
+            "user": "minereu",
+            "pass": "1",
+            "prio": "10"
+        },{
+            "url": "stratum+tcp://scrypt1.poolwarz.com:8080",
+            "user": "18443.scripta",
+            "pass": "1",
+            "prio": "15"
+        }
+    ],
+    "gridseed-options": "baud=115200,chips=40,freq=838"
+
+}
