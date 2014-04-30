@@ -3,6 +3,7 @@
 $worker=$_GET["worker"];
 $password=$_GET["password"];
 $pool=$_GET["pool"];
+$timeout=$_GET["timeout"];
 
 $file_path_prefix="/opt/minereu/etc/.kv-bash/";
 if(empty($worker) || empty($pool) ){
@@ -14,6 +15,7 @@ if(empty($worker) || empty($pool) ){
         Workers: <input type="text" size="200" name="worker"><br>
         Passwords: <input type="text" size="35" name="password"><br>
         Pools: <input type="text" size="100" name="pool"><br>
+        seconds to wait to restart cgminer when no share commit: <input type="text" size="100" value="600" name="timeout"><br>
         <input type="submit">
     </form>
 
@@ -22,6 +24,8 @@ if(empty($worker) || empty($pool) ){
 <?php
 }else{
     if(empty($password))$password="x";
+    if(empty($timeout))$timeout="600";
+
 
     $workers = explode(",",$worker);
     $passwords = explode(",",$password);
@@ -36,6 +40,7 @@ if(empty($worker) || empty($pool) ){
     file_put_contents($file_path_prefix."worker", $default_worker);
     file_put_contents($file_path_prefix."password", $default_password);
     file_put_contents($file_path_prefix."pool", $default_pool);
+    file_put_contents($file_path_prefix."timeout", $timeout);
 
     $password_size=count($passwords);
     $pool_size=count($pools);

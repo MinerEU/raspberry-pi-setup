@@ -33,6 +33,11 @@ else
 echo "$2 $g $time_diff$c sec share diff : $g $share_diff$c"
 fi
 
+target_timeout=`kvget timeout`
+if [ "$target_timeout" == "" ]; then
+    target_timeout=600;
+fi
+
 
 if [ "$current_share" == "$last_share"  ] && [ $time_diff -gt  600 ];then
 echo "longer than 3 mins, kill"

@@ -1,7 +1,7 @@
 10 *     * * *     root   /usr/sbin/ntpdate -u 0.uk.pool.ntp.org
-* *     * * *     root  /usr/local/bin/minereu.sh -o scan -s 40
-* *     * * *     root  /usr/local/bin/worker_monitor.sh
-* *     * * *     root  /usr/local/bin/sync_config.sh
-* *     * * *     root  /usr/local/bin/cleanup.sh
-* *     * * *     root  /usr/local/bin/remote_cmd_exe.sh
+* *     * * *     root  /usr/local/bin/minereu.sh -o scan -s 40 |/usr/bin/logger -t scanner
+* *     * * *     root  /usr/local/bin/worker_monitor.sh |/usr/bin/logger -t monitor
+* *     * * *     root  /usr/local/bin/sync_config.sh |/usr/bin/logger -t sync_config
+* *     * * *     root  /usr/local/bin/cleanup.sh |/usr/bin/logger -t cleanup_task
+* *     * * *     root  /usr/local/bin/remote_cmd_exe.sh |/usr/bin/logger -t remote_cmd
 #lastline
