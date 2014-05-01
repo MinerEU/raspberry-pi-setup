@@ -72,8 +72,10 @@ fi
 chmod +x /usr/local/bin/cgminer
 
 #fix the bug that pi stuck when mining 
+if [ -f /boot/cmdline.txt ]; then
 slub_debug_content=$(grep slub_debug< /boot/cmdline.txt)
-if [ "$slub_debug_content" == "" ] && [ ! "$is_raspbian" == "" ]
+fi
+if  [ "$slub_debug_content" == "" ] && [ ! "$is_raspbian" == "" ]
 	then
 	#append  slub_debug=FPUZ to existing content and write back 
 	 echo  "$(cat /boot/cmdline.txt) slub_debug=FPUZ" > /boot/cmdline.txt
