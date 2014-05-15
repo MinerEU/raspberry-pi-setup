@@ -35,9 +35,9 @@ cd /
 #install scripta
 #forked version from mox235 to udpate a few configuration to support the G-Blade 40 chip
 cd /tmp
-wget --no-check-certificate -O scriptaming.zip  https://github.com/MinerEU/scripta/archive/master.zip
+wget --no-check-certificate -O scriptaming.zip  https://github.com/MinerEU/scripta_gc/archive/master.zip
 unzip -o scriptaming.zip
-cd scripta-master/
+cd scripta_gc-master/
 
 backup_path=/opt/minereu_back$(date +"%Y%m%d%H%M%S")
 mkdir $backup_path
